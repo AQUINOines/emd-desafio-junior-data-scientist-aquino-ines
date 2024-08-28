@@ -107,3 +107,21 @@ WHERE
   AND DATE(c.data_inicio) BETWEEN '2022-01-01' AND '2023-12-31'
   AND e.evento IS NOT NULL
 GROUP BY e.evento;
+
+-- 9) Qual evento teve a maior média diária de chamados abertos desse subtipo
+
+
+-- 10) Compare as médias diárias de chamados durante os eventos e a média diária de chamados abertos desse subtipo durante todo o período
+
+SELECT
+    e.evento,
+    COUNT(c.id_chamado) / DATE_DIFF(e.data_final, e.data_inicial, DAY) AS media_diaria_chamados
+FROM
+    datario.adm_central_atendimento_1746.chamado AS c
+LEFT JOIN 
+    datario.turismo_fluxo_visitantes.rede_hoteleira_ocupacao_eventos AS e
+    ON DATE(c.data_inicio) BETWEEN e.data_inicial AND e.data_final
+WHERE
+    c.subtipo = 'Perturbação do sossego'
+    AND DATE(c.data_inicio) BETWEEN '2022-01-01' AND '2023-12-31'
+    AND e.evento IS NOT NULL
